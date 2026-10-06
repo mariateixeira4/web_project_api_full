@@ -1,9 +1,9 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
-const secret = NODE_ENV === "production" ? JWT_SECRET : "dev-secret";
+const secret = NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret';
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -26,19 +26,19 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
 
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      }),
-    )
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
     .then((user) => {
       const userObject = user.toObject();
       delete userObject.password;
@@ -52,11 +52,11 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   User.findOne({ email })
-    .select("+password")
+    .select('+password')
     .then((user) => {
       if (!user) {
         return Promise.reject(
-          Object.assign(new Error("E-mail ou senha incorretos"), {
+          Object.assign(new Error('E-mail ou senha incorretos'), {
             statusCode: 401,
           }),
         );
@@ -65,15 +65,15 @@ module.exports.login = (req, res, next) => {
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
           return Promise.reject(
-            Object.assign(new Error("E-mail ou senha incorretos"), {
+            Object.assign(new Error('E-mail ou senha incorretos'), {
               statusCode: 401,
             }),
           );
         }
 
-        const token = jwt.sign({ _id: user._id }, secret, { expiresIn: "7d" });
+        const token = jwt.sign({ _id: user._id }, secret, { expiresIn: '7d' });
 
-        res.send({ token });
+        return res.send({ token });
       });
     })
     .catch(next);

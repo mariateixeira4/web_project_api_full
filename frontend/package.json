@@ -2,7 +2,6 @@
   "name": "web_project_around_react",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://mariateixeira4.github.io/web_project_around_auth/",
   "type": "module",
   "scripts": {
     "dev": "vite --open",

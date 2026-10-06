@@ -1,6 +1,6 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -8,19 +8,19 @@ const app = express();
 
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/aroundb");
+mongoose.connect('mongodb://localhost:27017/aroundb');
 
-const { createUser, login } = require("./controllers/users");
+const { createUser, login } = require('./controllers/users');
 
-const auth = require("./middlewares/auth");
-const errorHandler = require("./middlewares/error");
+const auth = require('./middlewares/auth');
+const errorHandler = require('./middlewares/error');
 
-const { validateSignup, validateSignin } = require("./middlewares/validation");
+const { validateSignup, validateSignin } = require('./middlewares/validation');
 
-const { requestLogger, errorLogger } = require("./middlewares/logger");
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const usersRouter = require("./routes/users");
-const cardsRouter = require("./routes/cards");
+const usersRouter = require('./routes/users');
+const cardsRouter = require('./routes/cards');
 
 app.use(express.json());
 
@@ -28,15 +28,15 @@ app.use(express.json());
 app.use(requestLogger);
 
 // Rota para testar a recuperação do servidor
-app.get("/crash-test", () => {
+app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error("O servidor travará agora");
+    throw new Error('O servidor travará agora');
   }, 0);
 });
 
 // Rotas públicas com validação
-app.post("/signup", validateSignup, createUser);
-app.post("/signin", validateSignin, login);
+app.post('/signup', validateSignup, createUser);
+app.post('/signin', validateSignin, login);
 
 // Autorização para todas as rotas seguintes
 app.use(auth);
@@ -48,7 +48,7 @@ app.use(cardsRouter);
 // Rota não encontrada
 app.use((req, res) => {
   res.status(404).send({
-    message: "Recurso requisitado não encontrado"
+    message: 'Recurso requisitado não encontrado',
   });
 });
 

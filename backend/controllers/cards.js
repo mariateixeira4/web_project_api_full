@@ -1,4 +1,4 @@
-const Card = require("../models/card");
+const Card = require('../models/card');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -24,7 +24,7 @@ module.exports.deleteCard = (req, res, next) => {
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
         const error = new Error(
-          "Você não tem permissão para excluir este cartão",
+          'Você não tem permissão para excluir este cartão',
         );
         error.statusCode = 403;
         throw error;

@@ -1,30 +1,30 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
+const mongoose = require('mongoose');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: "Jacques Cousteau",
+    default: 'Jacques Cousteau',
   },
 
   about: {
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: "Explorer",
+    default: 'Explorer',
   },
 
   avatar: {
     type: String,
     default:
-      "https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg",
+      'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
     validate: {
       validator(value) {
         return validator.isURL(value);
       },
-      message: "O avatar deve ser uma URL válida",
+      message: 'O avatar deve ser uma URL válida',
     },
   },
 
@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
       validator(value) {
         return validator.isEmail(value);
       },
-      message: "O e-mail deve ser válido",
+      message: 'O e-mail deve ser válido',
     },
   },
 
@@ -47,4 +47,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model('user', userSchema);

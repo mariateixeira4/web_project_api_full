@@ -21,7 +21,9 @@ function App() {
   const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(
+    () => !!localStorage.getItem("jwt"),
+  );
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
@@ -50,7 +52,6 @@ function App() {
     const token = localStorage.getItem("jwt");
 
     if (!token) {
-      setIsCheckingAuth(false);
       return;
     }
 
